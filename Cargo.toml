@@ -1,6 +1,12 @@
 [package]
-name = "dotnet-trx-rust"
+name = "rust-trx"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+clap = { version = "4.5.39", features = ["derive"] }
+regex = "1.11.1"
+roxmltree = "0.20.0"
+serde_json = "1.0.145"
+tempfile = "3.20.0"
+walkdir = "2.5.0"
