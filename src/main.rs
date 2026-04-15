@@ -521,9 +521,10 @@ fn write_error(
 fn make_relative(base_dir: &Path, file: &str) -> String {
     let path = Path::new(file);
     if path.is_absolute()
-        && let Ok(stripped) = path.strip_prefix(base_dir) {
-            return stripped.to_string_lossy().to_string();
-        }
+        && let Ok(stripped) = path.strip_prefix(base_dir)
+    {
+        return stripped.to_string_lossy().to_string();
+    }
 
     file.to_string()
 }
@@ -614,9 +615,10 @@ fn github_report(cli: &Cli, summary: &Summary, details: &str) -> Result<(), Stri
     let server_url = env::var("GITHUB_SERVER_URL").map_err(|_| "missing GITHUB_SERVER_URL")?;
 
     if let Ok(override_name) = env::var("GH_JOB_NAME")
-        && !override_name.is_empty() {
-            job_name = override_name;
-        }
+        && !override_name.is_empty()
+    {
+        job_name = override_name;
+    }
 
     let mut job_url = env::var("JOB_CHECK_RUN_ID")
         .ok()
