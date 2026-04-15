@@ -81,9 +81,6 @@ jobs:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             ext: ""
-          - os: ubuntu-latest
-            target: i686-unknown-linux-gnu
-            ext: ""
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             ext: ".exe"
