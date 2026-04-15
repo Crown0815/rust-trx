@@ -19,9 +19,6 @@ on:
         default: true
         required: false
 
-permissions:
-  contents: write
-
 env:
   CARGO_TERM_COLOR: always
   BINARY_NAME: rust-trx
@@ -114,7 +111,7 @@ jobs:
           cp "target/${{ matrix.target }}/release/${{ env.BINARY_NAME }}${{ matrix.ext }}" "dist/${{ env.BINARY_NAME }}-${{ matrix.target }}${{ matrix.ext }}"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: binary-${{ matrix.target }}
           path: dist/*
@@ -146,6 +143,7 @@ jobs:
   github-release:
     name: GitHub Release
     runs-on: ubuntu-latest
+    permissions: write-all
     needs:
       - determine-version
       - build
@@ -157,12 +155,9 @@ jobs:
 
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: release-artifacts
-
-      - name: Show artifacts
-        run: find release-artifacts -type f -maxdepth 3 | sort
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
@@ -172,4 +167,3 @@ jobs:
           prerelease: ${{ needs.determine-version.outputs.pre_release_label != '' }}
           files: release-artifacts/**/*
           fail_on_unmatched_files: true
-          generate_release_notes: true
