@@ -2,6 +2,8 @@
 name = "rust-trx"
 version = "0.1.0"
 edition = "2024"
+description = "Pretty-print TRX test results with GitHub Actions reporting support"
+license = "MIT"
 
 [dependencies]
 clap = { version = "4.5.39", features = ["derive"] }
