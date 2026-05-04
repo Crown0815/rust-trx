@@ -224,8 +224,17 @@ fn main() {
         }
     }
 
-    if !cli.no_exit_code && summary.failed > 0 {
-        process::exit(255);
+    let exit_code = exit_code_for_summary(cli.no_exit_code, &summary);
+    if exit_code != 0 {
+        process::exit(exit_code);
+    }
+}
+
+fn exit_code_for_summary(no_exit_code: bool, summary: &Summary) -> i32 {
+    if !no_exit_code && summary.failed > 0 {
+        255
+    } else {
+        0
     }
 }
 
@@ -975,6 +984,19 @@ mod tests {
             duration: Duration::ZERO,
         };
         assert_eq!(summary.total(), 6);
+    }
+
+    #[test]
+    fn no_exit_code_controls_failed_summary_exit_code() {
+        let summary = Summary {
+            passed: 0,
+            failed: 1,
+            skipped: 0,
+            duration: Duration::ZERO,
+        };
+
+        assert_eq!(exit_code_for_summary(false, &summary), 255);
+        assert_eq!(exit_code_for_summary(true, &summary), 0);
     }
 
     #[test]
